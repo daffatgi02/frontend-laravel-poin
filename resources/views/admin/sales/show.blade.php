@@ -9,9 +9,14 @@
                     <h2><i class="fas fa-receipt me-2"></i>Detail & Verifikasi Penjualan</h2>
                     <p class="text-muted">Lihat dan verifikasi penjualan dari toko.</p>
                 </div>
-                <a href="{{ route('admin.sales.index') }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-1"></i>Kembali ke Daftar Penjualan
-                </a>
+                <div>
+                    <a href="{{ route('admin.sales.index') }}" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali ke Daftar Penjualan
+                    </a>
+                    <a href="{{ route('admin.sales.pdf', $sale->id_penjualan) }}" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-file-pdf me-1"></i>Download PDF
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -188,6 +193,68 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Bukti Penjualan -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-images me-2"></i>Bukti Penjualan</h5>
+                </div>
+                <div class="card-body">
+                    <div id="buktiCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @if ($sale->bukti_penjualan && is_array(json_decode($sale->bukti_penjualan)))
+                                @foreach(json_decode($sale->bukti_penjualan) as $index => $foto)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                        <img src="{{ asset('storage/' . $foto) }}" class="d-block w-100 rounded" alt="Bukti Penjualan {{ $index + 1 }}" style="max-height: 300px; object-fit: contain;">
+                                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                                            <h6>Bukti {{ $index + 1 }}</h6>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @elseif ($sale->bukti_penjualan)
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('storage/' . $sale->bukti_penjualan) }}" class="d-block w-100 rounded" alt="Bukti Penjualan" style="max-height: 300px; object-fit: contain;">
+                                </div>
+                            @else
+                                <div class="carousel-item active">
+                                    <div class="d-flex justify-content-center align-items-center bg-light rounded" style="height: 200px;">
+                                        <span class="text-muted">Tidak ada bukti penjualan</span>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        @if (($sale->bukti_penjualan && is_array(json_decode($sale->bukti_penjualan)) && count(json_decode($sale->bukti_penjualan)) > 1) ||
+                            ($sale->bukti_penjualan && !is_array(json_decode($sale->bukti_penjualan, true))))
+                            <button class="carousel-control-prev" type="button" data-bs-target="#buktiCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#buktiCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        @endif
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <p class="text-muted small">Klik pada gambar untuk melihat ukuran penuh</p>
+                        <div class="d-flex flex-wrap justify-content-center">
+                            @if ($sale->bukti_penjualan && is_array(json_decode($sale->bukti_penjualan)))
+                                @foreach(json_decode($sale->bukti_penjualan) as $index => $foto)
+                                    <a href="{{ asset('storage/' . $foto) }}" target="_blank" class="m-1">
+                                        <img src="{{ asset('storage/' . $foto) }}" alt="Thumbnail {{ $index + 1 }}" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    </a>
+                                @endforeach
+                            @elseif ($sale->bukti_penjualan)
+                                <a href="{{ asset('storage/' . $sale->bukti_penjualan) }}" target="_blank" class="m-1">
+                                    <img src="{{ asset('storage/' . $sale->bukti_penjualan) }}" alt="Thumbnail" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection

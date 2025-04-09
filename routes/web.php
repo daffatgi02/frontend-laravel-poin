@@ -69,3 +69,5 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
     Route::get('/sales/{id}', [AdminSaleController::class, 'show'])->name('admin.sales.show');
     Route::put('/sales/{id}/status', [AdminSaleController::class, 'updateStatus'])->name('admin.sales.update_status');
 });
+// In routes/web.php
+Route::get('/admin/sales/{id}/pdf', [AdminSaleController::class, 'generatePdf'])->name('admin.sales.pdf');

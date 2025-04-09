@@ -85,7 +85,8 @@ class SaleController extends Controller
             'jumlah' => 'required|integer|min:1',
             'harga_jual' => 'required|numeric|min:0',
             'tanggal_penjualan' => 'required|date',
-            'bukti_penjualan' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'bukti_penjualan' => 'required|array|min:1|max:10',
+            'bukti_penjualan.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'catatan' => 'nullable|string'
         ]);
 
@@ -105,17 +106,23 @@ class SaleController extends Controller
             return redirect()->route('toko.sales.create')->with('error', 'Stok produk tidak mencukupi.');
         }
 
-        // Handle file upload
-        $buktiPath = $request->file('bukti_penjualan')->store('bukti-penjualan', 'public');
+        // Handle multiple file uploads
+        $buktiPaths = [];
+        if ($request->hasFile('bukti_penjualan')) {
+            foreach ($request->file('bukti_penjualan') as $photo) {
+                $path = $photo->store('bukti-penjualan', 'public');
+                $buktiPaths[] = $path;
+            }
+        }
 
-        // Create sale record
+        // Create sale record with JSON encoded paths
         $sale = Sale::create([
             'store_id' => $store->id_toko,
             'product_id' => $request->product_id,
             'jumlah' => $request->jumlah,
             'harga_jual' => $request->harga_jual,
             'tanggal_penjualan' => $request->tanggal_penjualan,
-            'bukti_penjualan' => $buktiPath,
+            'bukti_penjualan' => json_encode($buktiPaths),
             'catatan' => $request->catatan,
             'status' => 'pending'
         ]);

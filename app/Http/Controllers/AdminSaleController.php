@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminSaleController extends Controller
 {
@@ -79,5 +80,21 @@ class AdminSaleController extends Controller
         }
 
         return redirect()->route('admin.sales.index')->with('success', 'Status penjualan berhasil diperbarui.');
+    }
+    /**
+     * Generate a PDF receipt for a sale.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function generatePdf($id)
+    {
+        $sale = Sale::where('id_penjualan', $id)
+            ->with(['product', 'store'])
+            ->firstOrFail();
+
+        $pdf = PDF::loadView('admin.sales.pdf', compact('sale'));
+
+        return $pdf->download('bukti-penjualan-admin-' . $id . '.pdf');
     }
 }
