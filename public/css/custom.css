@@ -1,0 +1,147 @@
+/* Custom styles */
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #343a40 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+}
+
+.content-wrapper {
+    flex: 1;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.sidebar {
+    background-color: #343a40;
+    color: white;
+    min-height: calc(100vh - 56px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    border: none;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+/* Status badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+}
+
+/* Form styles */
+.form-control, .form-select {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Card animations */
+.card-body {
+    transition: all 0.3s ease;
+}
+
+/* Custom auth pages */
+.auth-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-card-header {
+    background: #0d6efd;
+    color: white;
+    padding: 20px;
+}
+
+.auth-form {
+    padding: 30px;
+}
+
+/* Image previews */
+.img-preview {
+    max-height: 150px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 10px 0;
+}
