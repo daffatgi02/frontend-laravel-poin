@@ -95,7 +95,7 @@
                                 <div class="card">
                                     <div class="card-body text-center p-3">
                                         <div class="mb-3">
-                                            <img id="preview1" src="https://via.placeholder.com/150?text=Foto+1" class="img-fluid rounded mb-2" alt="Preview Foto 1" style="max-height: 150px;">
+                                            <img id="preview1" src="https://placehold.co/150?text=Foto+1" class="img-fluid rounded mb-2" alt="Preview Foto 1" style="max-height: 150px;">
                                         </div>
                                         <div class="input-group">
                                             <input id="foto1" type="file" class="form-control @error('foto1') is-invalid @enderror" name="foto1" required accept="image/jpeg,image/png,image/jpg" onchange="previewImage(this, 'preview1')">
@@ -114,7 +114,7 @@
                                 <div class="card">
                                     <div class="card-body text-center p-3">
                                         <div class="mb-3">
-                                            <img id="preview2" src="https://via.placeholder.com/150?text=Foto+2" class="img-fluid rounded mb-2" alt="Preview Foto 2" style="max-height: 150px;">
+                                            <img id="preview2" src="https://placehold.co/150?text=Foto+2" class="img-fluid rounded mb-2" alt="Preview Foto 2" style="max-height: 150px;">
                                         </div>
                                         <div class="input-group">
                                             <input id="foto2" type="file" class="form-control @error('foto2') is-invalid @enderror" name="foto2" required accept="image/jpeg,image/png,image/jpg" onchange="previewImage(this, 'preview2')">
@@ -133,7 +133,7 @@
                                 <div class="card">
                                     <div class="card-body text-center p-3">
                                         <div class="mb-3">
-                                            <img id="preview3" src="https://via.placeholder.com/150?text=Foto+3" class="img-fluid rounded mb-2" alt="Preview Foto 3" style="max-height: 150px;">
+                                            <img id="preview3" src="https://placehold.co/150?text=Foto+3" class="img-fluid rounded mb-2" alt="Preview Foto 3" style="max-height: 150px;">
                                         </div>
                                         <div class="input-group">
                                             <input id="foto3" type="file" class="form-control @error('foto3') is-invalid @enderror" name="foto3" required accept="image/jpeg,image/png,image/jpg" onchange="previewImage(this, 'preview3')">

@@ -110,6 +110,18 @@
                             </div>
                         </div>
                         <div class="col-md-4">
+                            <div class="card border-warning h-100">
+                                <div class="card-body text-center p-4">
+                                    <i class="fas fa-shopping-cart fa-3x text-warning mb-3"></i>
+                                    <h5>Verifikasi Penjualan</h5>
+                                    <p class="text-muted">Verifikasi penjualan dari toko dan kelola bukti penjualan.</p>
+                                    <a href="{{ route('admin.sales.index') }}" class="btn btn-warning text-white mt-2">
+                                        <i class="fas fa-check-circle me-1"></i>Verifikasi Penjualan
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="card border-info h-100">
                                 <div class="card-body text-center p-4">
                                     <i class="fas fa-users fa-3x text-info mb-3"></i>
@@ -122,18 +134,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-warning h-100">
-                <div class="card-body text-center p-4">
-                    <i class="fas fa-shopping-cart fa-3x text-warning mb-3"></i>
-                    <h5>Verifikasi Penjualan</h5>
-                    <p class="text-muted">Verifikasi penjualan dari toko dan kelola bukti penjualan.</p>
-                    <a href="{{ route('admin.sales.index') }}" class="btn btn-warning text-white mt-2">
-                        <i class="fas fa-check-circle me-1"></i>Verifikasi Penjualan
-                    </a>
                 </div>
             </div>
         </div>

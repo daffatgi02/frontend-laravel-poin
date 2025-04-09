@@ -28,7 +28,7 @@
 
         <div class="row">
             <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
+                <div class="card shadow-sm border-0 h-90">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0"><i class="fas fa-image me-2"></i>Foto Produk</h5>
                     </div>
@@ -43,9 +43,9 @@
                         @endif
 
                         <h4>{{ $product->nama_produk }}</h4>
-                        <p class="text-muted">ID: {{ $product->id_produk }}</p>
+                        {{-- <p class="text-muted">ID: {{ $product->id_produk }}</p> --}}
 
-                        <div class="d-flex justify-content-between mt-3">
+                        {{-- <div class="d-flex justify-content-between mt-3">
                             <span class="badge bg-primary p-2">
                                 <i class="fas fa-tag me-1"></i><span class="badge bg-primary p-2">
                                     <i class="fas fa-tag me-1"></i>Rp {{ number_format($product->harga, 0, ',', '.') }}
@@ -56,7 +56,7 @@
                                 <span class="badge bg-info text-white p-2">
                                     <i class="fas fa-award me-1"></i>{{ number_format($product->reward_poin) }} Poin
                                 </span>
-                        </div>
+                        </div> --}}
                     </div>
                     @if (auth()->user()->role === 'Admin')
                         <div class="card-footer bg-white">
@@ -132,7 +132,7 @@
 
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-store me-2"></i>Informasi Toko</h5>
+                        <h5 class="mb-0"><i class="fas fa-store me-2"></i>Informasi toko yang menjual produk</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">

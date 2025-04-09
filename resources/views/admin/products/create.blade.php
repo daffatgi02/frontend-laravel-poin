@@ -121,7 +121,7 @@
                                     <div class="form-text">Upload gambar dengan format JPG, JPEG, atau PNG. Maksimal 2MB.</div>
                                 </div>
                                 <div class="col-md-4 text-center">
-                                    <img id="preview" src="https://via.placeholder.com/150?text=Preview" class="img-fluid rounded" alt="Preview" style="max-height: 150px;">
+                                    <img id="preview" src="https://placehold.co/150?text=Preview" class="img-fluid rounded" alt="Preview" style="max-height: 150px;">
                                 </div>
                             </div>
                         </div>

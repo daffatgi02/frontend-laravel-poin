@@ -109,7 +109,7 @@
                     @if ($sale->catatan)
                     <div class="row mb-4">
                         <div class="col-12">
-                            <h5 class="border-bottom pb-2 mb-3">Catatan</h5>
+                            <h5 class="border-bottom pb-2 mb-3">Catatan Penjual</h5>
                             <p>{{ $sale->catatan }}</p>
                         </div>
                     </div>

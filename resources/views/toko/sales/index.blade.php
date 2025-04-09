@@ -107,7 +107,8 @@
                 <div class="text-center py-5">
                     <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
                     <h4>Belum ada catatan penjualan</h4>
-                    <p class="text-muted">Mulai catat penjualan pertama Anda untuk melihat daftar di sini.</p>
+                    {{-- <p class="text-muted">Mulai catat penjualan pertama Anda untuk melihat daftar di sini.</p> --}}
+                    <p class="text-muted">Jika belum ada produk maka tidak bisa melakukan pencatatan penjualan</p>
                     <a href="{{ route('toko.sales.create') }}" class="btn btn-primary mt-3">
                         <i class="fas fa-plus-circle me-1"></i>Catat Penjualan Baru
                     </a>

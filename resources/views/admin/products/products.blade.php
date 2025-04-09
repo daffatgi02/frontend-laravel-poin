@@ -53,7 +53,7 @@
                                 @if ($product->foto_produk)
                                     <img src="{{ asset('storage/' . $product->foto_produk) }}" class="card-img-top" alt="{{ $product->nama_produk }}" style="height: 200px; object-fit: cover;">
                                 @else
-                                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image" style="height: 200px; object-fit: cover;">
+                                    <img src="https://placehold.co/300x200?text=No+Image" class="card-img-top" alt="No Image" style="height: 200px; object-fit: cover;">
                                 @endif
                                 <div class="position-absolute top-0 end-0 p-2">
                                     <span class="badge bg-primary">{{ number_format($product->reward_poin) }} Poin</span>
@@ -93,7 +93,7 @@
                                             @if ($product->foto_produk)
                                                 <img src="{{ asset('storage/' . $product->foto_produk) }}" class="img-fluid rounded" alt="{{ $product->nama_produk }}">
                                             @else
-                                                <img src="https://via.placeholder.com/400x400?text=No+Image" class="img-fluid rounded" alt="No Image">
+                                                <img src="https://placehold.co/400x400?text=No+Image" class="img-fluid rounded" alt="No Image">
                                             @endif
                                         </div>
                                         <div class="col-md-7">

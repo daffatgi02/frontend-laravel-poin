@@ -110,7 +110,7 @@
                                     <div class="form-text">Upload gambar bukti penjualan dengan format JPG, JPEG, atau PNG. Maksimal 2MB.</div>
                                 </div>
                                 <div class="col-md-4 text-center">
-                                    <img id="preview" src="https://via.placeholder.com/150?text=Preview" class="img-fluid rounded" alt="Preview" style="max-height: 150px;">
+                                    <img id="preview" src="https://placehold.co/150?text=Preview" class="img-fluid rounded" alt="Preview" style="max-height: 150px;">
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="catatan" class="form-label">Catatan</label>
+                    <label for="catatan" class="form-label">
+                        Catatan Penjual <span style="color: rgb(157, 156, 156);">(jika tidak ada kosongkan)</span>
+                    </label>
                     <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan" rows="3">{{ old('catatan') }}</textarea>
                     @error('catatan')
                         <div class="invalid-feedback">
