@@ -673,6 +673,100 @@
                 display: none;
             }
         }
+
+        /* Professional User Dropdown Styling */
+        .user-dropdown {
+            margin-left: 10px;
+        }
+
+        .user-dropdown-toggle {
+            padding: 5px 10px !important;
+            border-radius: 30px;
+            background-color: rgba(var(--bs-light-rgb), 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .user-dropdown-toggle:hover,
+        .user-dropdown-toggle:focus {
+            background-color: rgba(var(--bs-light-rgb), 1);
+        }
+
+        .user-dropdown-toggle::after {
+            margin-left: 8px;
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .avatar-circle-lg {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+        }
+
+        .avatar-initial {
+            line-height: 1;
+        }
+
+        .user-name,
+        .user-role {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            color: var(--primary);
+        }
+
+        .user-dropdown-menu {
+            min-width: 240px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .dropdown-user-details {
+            background-color: rgba(var(--bs-light-rgb), 0.5);
+        }
+
+        .user-dropdown-menu .dropdown-item {
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .user-dropdown-menu .dropdown-item:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+        }
+
+        .user-dropdown-menu .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 991px) {
+            .user-dropdown {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .user-dropdown-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 
@@ -719,22 +813,96 @@
                             <a class="nav-link" href="#faq">FAQ</a>
                         </li>
 
-                        <!-- Auth Links -->
+                        <!-- Auth Links with Professional Greeting -->
                         @if (Route::has('login'))
                             @auth
-                                @if (Auth::user()->role === 'Admin')
-                                    <li class="nav-item auth-item">
-                                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-navbar">
-                                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="nav-item auth-item">
-                                        <a href="{{ route('toko.dashboard') }}" class="btn btn-primary btn-navbar">
-                                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                                        </a>
-                                    </li>
-                                @endif
+                                <div class="nav-item dropdown user-dropdown">
+                                    <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#"
+                                        id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle">
+                                                <span class="avatar-initial">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                            </div>
+                                            <span class="ms-2 d-none d-lg-inline-block">
+                                                @if (Auth::user()->isAdmin())
+                                                    <span class="user-role">Administrator</span>
+                                                @else
+                                                    <span class="user-name">{{ Auth::user()->name }}</span>
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu"
+                                        aria-labelledby="userDropdown">
+                                        <li class="dropdown-user-details">
+                                            <div class="d-flex align-items-center p-3">
+                                                <div class="avatar-circle avatar-circle-lg">
+                                                    <span
+                                                        class="avatar-initial">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0">{{ Auth::user()->name }}</h6>
+                                                    <small class="text-muted">
+                                                        @if (Auth::user()->isAdmin())
+                                                            <span class="badge bg-primary">Administrator</span>
+                                                        @else
+                                                            <span class="badge bg-success">Toko</span>
+                                                        @endif
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            @if (Auth::user()->isAdmin())
+                                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                                </a>
+                                            @endif
+                                            @if (Auth::user()->isAdmin())
+                                            <a class="dropdown-item" href="{{ route('admin.stores') }}">
+                                                <i class="fas fa-shop me-2"></i>Daftar Semua Toko
+                                            </a>
+                                        @endif
+                                        </li>
+                                        @if (!Auth::user()->isAdmin())
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('toko.dashboard') }}">
+                                                    <i class="fas fa-store me-2"></i>Toko Saya
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (!Auth::user()->isAdmin())
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('toko.products') }}">
+                                                    <i class="fas fa-cubes me-2"></i>Produk Saya
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (!Auth::user()->isAdmin())
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('toko.sales.index') }}">
+                                                <i class="fas fa-note-sticky me-2"></i>Catatan Penjualan
+                                            </a>
+                                        </li>
+                                    @endif
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <i class="fas fa-sign-out-alt me-2"></i>Keluar
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             @else
                                 <li class="nav-item auth-item">
                                     <a href="{{ route('login') }}" class="btn btn-primary btn-navbar">
@@ -755,7 +923,6 @@
             </div>
         </nav>
     </header>
-
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
@@ -778,18 +945,7 @@
             </div>
         </div>
         <div class="wave">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
-                preserveAspectRatio="none">
-                <path
-                    d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-                    opacity=".25" class="shape-fill"></path>
-                <path
-                    d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
-                    opacity=".5" class="shape-fill"></path>
-                <path
-                    d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
-                    class="shape-fill"></path>
-            </svg>
+            <!-- break -->
         </div>
     </section>
 
