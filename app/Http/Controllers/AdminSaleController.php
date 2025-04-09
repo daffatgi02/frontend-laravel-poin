@@ -73,36 +73,47 @@ class AdminSaleController extends Controller
 
         // Handle stock updates based on status change
         if ($oldStatus != $newStatus) {
-            // If changing from pending to verified, reduce stock
-            if ($oldStatus == 'pending' && $newStatus == 'verified') {
-                // Check if there's enough stock
-                if ($product->stok < $sale->jumlah) {
-                    return redirect()->back()->with('error', 'Stok produk tidak mencukupi untuk verifikasi penjualan ini.');
+            if ($oldStatus == 'pending') {
+                // Release the reserved stock since we're changing from pending
+                $product->reserved_stock -= $sale->jumlah;
+
+                if ($newStatus == 'verified') {
+                    // If verifying, reduce actual stock
+                    if ($product->stok < $sale->jumlah) {
+                        // This should never happen if reserved stock logic is working properly,
+                        // but it's a safeguard
+                        return redirect()->back()->with('error', 'Stok produk tidak mencukupi untuk verifikasi penjualan ini.');
+                    }
+
+                    // Reduce actual stock
+                    $product->stok -= $sale->jumlah;
                 }
-
-                // Reduce stock
-                $product->stok -= $sale->jumlah;
-                $product->save();
-            }
-
-            // If changing from verified to rejected, restore stock
-            if ($oldStatus == 'verified' && $newStatus == 'rejected') {
-                // Restore stock
+                // If rejecting, just release the reservation, no need to modify actual stock
+            } else if ($oldStatus == 'verified' && $newStatus != 'verified') {
+                // If changing from verified to rejected or pending, restore actual stock
                 $product->stok += $sale->jumlah;
-                $product->save();
-            }
 
-            // If changing from rejected to verified, reduce stock
-            if ($oldStatus == 'rejected' && $newStatus == 'verified') {
-                // Check if there's enough stock
+                if ($newStatus == 'pending') {
+                    // If changing back to pending, re-reserve the stock
+                    $product->reserved_stock += $sale->jumlah;
+                }
+            } else if ($oldStatus == 'rejected' && $newStatus == 'verified') {
+                // If changing from rejected to verified, reduce actual stock
                 if ($product->stok < $sale->jumlah) {
                     return redirect()->back()->with('error', 'Stok produk tidak mencukupi untuk verifikasi penjualan ini.');
                 }
 
-                // Reduce stock
                 $product->stok -= $sale->jumlah;
-                $product->save();
+            } else if ($oldStatus == 'rejected' && $newStatus == 'pending') {
+                // If changing from rejected to pending, reserve stock
+                if ($product->available_stock < $sale->jumlah) {
+                    return redirect()->back()->with('error', 'Stok tersedia tidak mencukupi untuk mengubah status menjadi menunggu.');
+                }
+
+                $product->reserved_stock += $sale->jumlah;
             }
+
+            $product->save();
         }
 
         // Update sale status and admin notes

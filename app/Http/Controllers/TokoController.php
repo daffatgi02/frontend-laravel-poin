@@ -105,4 +105,34 @@ class TokoController extends Controller
 
         return view('toko.products', compact('products', 'store'));
     }
+    /**
+     * Show the form for creating a new sale.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        $store = Store::where('user_id', Auth::id())->first();
+
+        if (!$store) {
+            return redirect()->route('toko.dashboard')->with('error', 'Anda belum memiliki toko.');
+        }
+
+        if ($store->status !== 'verified') {
+            return redirect()->route('toko.dashboard')->with('error', 'Toko Anda belum diverifikasi oleh Admin.');
+        }
+
+        $products = Product::where('store_id', $store->id_toko)
+            ->where('stok', '>', 0)
+            ->get()
+            ->map(function ($product) {
+                $product->available_stock = $product->stok - $product->reserved_stock;
+                return $product;
+            })
+            ->filter(function ($product) {
+                return $product->available_stock > 0;
+            });
+
+        return view('toko.sales.create', compact('products', 'store'));
+    }
 }

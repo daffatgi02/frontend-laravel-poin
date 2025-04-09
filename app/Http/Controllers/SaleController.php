@@ -102,9 +102,9 @@ class SaleController extends Controller
             return redirect()->route('toko.sales.create')->with('error', 'Produk tidak terkait dengan toko Anda.');
         }
 
-        // Check if the requested quantity is available
-        if ($product->stok < $request->jumlah) {
-            return redirect()->route('toko.sales.create')->with('error', 'Stok produk tidak mencukupi.');
+        // Check if the requested quantity is available (considering reserved stock)
+        if ($product->available_stock < $request->jumlah) {
+            return redirect()->route('toko.sales.create')->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->available_stock);
         }
 
         // Handle multiple file uploads
@@ -128,7 +128,9 @@ class SaleController extends Controller
             'status' => 'pending'
         ]);
 
-        // Note: We no longer reduce the stock here. Stock will be reduced when admin verifies the sale.
+        // Reserve the stock (increment reserved_stock)
+        $product->reserved_stock += $request->jumlah;
+        $product->save();
 
         return redirect()->route('toko.sales.index')->with('success', 'Penjualan berhasil dicatat dan menunggu verifikasi admin.');
     }

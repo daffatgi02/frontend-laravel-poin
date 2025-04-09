@@ -35,4 +35,13 @@ class Product extends Model
     {
         return $this->hasMany(Sale::class, 'product_id', 'id_produk');
     }
+     /**
+     * Get the available stock (total stock minus reserved stock)
+     *
+     * @return int
+     */
+    public function getAvailableStockAttribute()
+    {
+        return $this->stok - $this->reserved_stock;
+    }
 }

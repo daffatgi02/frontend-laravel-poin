@@ -43,20 +43,6 @@
                         @endif
 
                         <h4>{{ $product->nama_produk }}</h4>
-                        {{-- <p class="text-muted">ID: {{ $product->id_produk }}</p> --}}
-
-                        {{-- <div class="d-flex justify-content-between mt-3">
-                            <span class="badge bg-primary p-2">
-                                <i class="fas fa-tag me-1"></i><span class="badge bg-primary p-2">
-                                    <i class="fas fa-tag me-1"></i>Rp {{ number_format($product->harga, 0, ',', '.') }}
-                                </span>
-                                <span class="badge bg-success p-2">
-                                    <i class="fas fa-box me-1"></i>Stok: {{ $product->stok }}
-                                </span>
-                                <span class="badge bg-info text-white p-2">
-                                    <i class="fas fa-award me-1"></i>{{ number_format($product->reward_poin) }} Poin
-                                </span>
-                        </div> --}}
                     </div>
                     @if (auth()->user()->role === 'Admin')
                         <div class="card-footer bg-white">
@@ -105,7 +91,14 @@
                                         </tr>
                                         <tr>
                                             <th>Stok</th>
-                                            <td>{{ $product->stok }}</td>
+                                            <td><span
+                                                    class="badge bg-{{ $product->stok - $product->reserved_stock > 0 ? 'success' : 'danger' }}">
+                                                    {{ $product->stok - $product->reserved_stock > 0 ? 'Tersedia: ' . ($product->stok - $product->reserved_stock) : 'Habis' }}
+                                                </span>
+                                                <br>
+                                                <small class="text-muted">Total: {{ $product->stok }} | Dipesan:
+                                                    {{ $product->reserved_stock }}</small>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>

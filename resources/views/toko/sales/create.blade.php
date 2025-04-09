@@ -40,8 +40,10 @@
                                 <option value="">-- Pilih Produk --</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id_produk }}" data-harga="{{ $product->harga }}"
-                                        data-stok="{{ $product->stok }}">
-                                        {{ $product->nama_produk }} (Stok: {{ $product->stok }})
+                                        data-stok="{{ $product->stok }}" data-reserved-stok="{{ $product->reserved_stock }}"
+                                        data-available-stok="{{ $product->stok - $product->reserved_stock }}">
+                                        {{ $product->nama_produk }} (Tersedia:
+                                        {{ $product->stok - $product->reserved_stock }})
                                     </option>
                                 @endforeach
                             </select>
@@ -207,6 +209,8 @@
                 const selectedOption = productSelect.options[productSelect.selectedIndex];
                 const harga = selectedOption.getAttribute('data-harga');
                 const stok = selectedOption.getAttribute('data-stok');
+                const reservedStok = selectedOption.getAttribute('data-reserved-stok') || 0;
+                const availableStok = stok - reservedStok;
 
                 if (harga) {
                     hargaInput.value = harga;
@@ -217,8 +221,9 @@
                 }
 
                 if (stok) {
-                    jumlahInput.max = stok;
-                    stokInfo.textContent = `Stok tersedia: ${stok}`;
+                    jumlahInput.max = availableStok;
+                    stokInfo.textContent =
+                        `Stok tersedia: ${availableStok} (Total: ${stok}, Dipesan: ${reservedStok})`;
                 } else {
                     jumlahInput.max = 1000;
                     stokInfo.textContent = 'Stok tersedia: -';
@@ -268,10 +273,10 @@
 
                 // Add event listener to the remove button
                 document.querySelector(`#photo-card-${photoId} .remove-photo`).addEventListener('click',
-            function() {
-                    document.getElementById(`photo-card-${photoId}`).remove();
-                    photoCount--;
-                });
+                    function() {
+                        document.getElementById(`photo-card-${photoId}`).remove();
+                        photoCount--;
+                    });
             }
 
             // Event listeners

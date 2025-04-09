@@ -88,7 +88,13 @@
                                 <td>{{ $product->nama_produk }}</td>
                                 <td>{{ $product->store->nama_toko }}</td>
                                 <td>Rp {{ number_format($product->harga, 0, ',', '.') }}</td>
-                                <td>{{ $product->stok }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $product->stok - $product->reserved_stock > 0 ? 'success' : 'danger' }}">
+                                        {{ $product->stok - $product->reserved_stock > 0 ? 'Tersedia: ' . ($product->stok - $product->reserved_stock) : 'Habis' }}
+                                    </span>
+                                    <br>
+                                    <small class="text-muted">Total: {{ $product->stok }} | Dipesan: {{ $product->reserved_stock }}</small>
+                                </td>
                                 <td>{{ number_format($product->reward_poin) }}</td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
