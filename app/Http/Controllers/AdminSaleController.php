@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use App\Models\Store;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -64,20 +65,50 @@ class AdminSaleController extends Controller
         ]);
 
         $sale = Sale::findOrFail($id);
-        $sale->status = $request->status;
+        $oldStatus = $sale->status;
+        $newStatus = $request->status;
+
+        // Get the product to update stock
+        $product = Product::findOrFail($sale->product_id);
+
+        // Handle stock updates based on status change
+        if ($oldStatus != $newStatus) {
+            // If changing from pending to verified, reduce stock
+            if ($oldStatus == 'pending' && $newStatus == 'verified') {
+                // Check if there's enough stock
+                if ($product->stok < $sale->jumlah) {
+                    return redirect()->back()->with('error', 'Stok produk tidak mencukupi untuk verifikasi penjualan ini.');
+                }
+
+                // Reduce stock
+                $product->stok -= $sale->jumlah;
+                $product->save();
+            }
+
+            // If changing from verified to rejected, restore stock
+            if ($oldStatus == 'verified' && $newStatus == 'rejected') {
+                // Restore stock
+                $product->stok += $sale->jumlah;
+                $product->save();
+            }
+
+            // If changing from rejected to verified, reduce stock
+            if ($oldStatus == 'rejected' && $newStatus == 'verified') {
+                // Check if there's enough stock
+                if ($product->stok < $sale->jumlah) {
+                    return redirect()->back()->with('error', 'Stok produk tidak mencukupi untuk verifikasi penjualan ini.');
+                }
+
+                // Reduce stock
+                $product->stok -= $sale->jumlah;
+                $product->save();
+            }
+        }
+
+        // Update sale status and admin notes
+        $sale->status = $newStatus;
         $sale->catatan_admin = $request->catatan_admin;
         $sale->save();
-
-        // If verified, perhaps calculate and add points to the store
-        if ($request->status === 'verified') {
-            // This is where you could implement your reward points logic
-            // For example, adding points based on the product's reward_poin value
-            // This is just a placeholder - implement your specific logic
-
-            // $product = $sale->product;
-            // $pointsToAdd = $product->reward_poin * $sale->jumlah;
-            // Add points to store or user
-        }
 
         return redirect()->route('admin.sales.index')->with('success', 'Status penjualan berhasil diperbarui.');
     }

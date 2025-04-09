@@ -157,11 +157,6 @@
                                         <i class="fas fa-shopping-cart me-1"></i>Verifikasi Penjualan
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {{ Route::is('admin.users_without_store') ? 'active' : '' }}" href="{{ route('admin.users_without_store') }}">
-                                        <i class="fas fa-users me-1"></i>Pengguna
-                                    </a>
-                                </li>
                             @elseif (Auth::user()->role === 'Toko')
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('toko.dashboard') ? 'active' : '' }}" href="{{ route('toko.dashboard') }}">
