@@ -66,15 +66,204 @@
             transform: translateY(-3px);
         }
 
-        .navbar {
-            padding: 20px 0;
+        /* Navbar Styling */
+        .header-area {
+            height: 80px;
+        }
+
+        .custom-navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-navbar.navbar-scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.98) !important;
+        }
+
+        .navbar-brand {
+            padding: 0;
+            margin-right: 30px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
             transition: all 0.3s ease;
         }
 
-        .navbar-scrolled {
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
-            background-color: white !important;
+        .brand-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-scrolled .brand-text {
+            color: var(--dark);
+        }
+
+        .nav-item {
+            margin: 0 2px;
+            position: relative;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 10px 15px !important;
+            color: var(--dark) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+            color: var(--primary) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 5px;
+            left: 15px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: calc(100% - 30px);
+        }
+
+        .auth-item {
+            margin-left: 8px;
+        }
+
+        .btn-navbar {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-navbar.btn-primary {
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-navbar.btn-primary:hover {
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-navbar.btn-outline-primary {
+            background-color: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-navbar.btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+
+        .toggler-icon {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            opacity: 1;
+            transition: 0.3s ease;
+        }
+
+        .toggler-icon:nth-child(1) {
+            top: 0;
+        }
+
+        .toggler-icon:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .toggler-icon:nth-child(3) {
+            bottom: 0;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggler-icon:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggler-icon:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .toggler-icon:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* Hero section adjustment for new navbar */
+        .hero-section {
+            padding-top: 160px;
+        }
+
+        @media (max-width: 991px) {
+            .custom-navbar {
+                padding: 10px 0;
+                background-color: white;
+            }
+
+            .nav-item {
+                margin: 5px 0;
+            }
+
+            .nav-link::after {
+                display: none;
+            }
+
+            .auth-item {
+                margin-top: 15px;
+                margin-left: 0;
+            }
+
+            .navbar-collapse {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                margin-top: 10px;
+            }
+
+            .btn-navbar {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
         }
 
         .hero-section {
@@ -488,60 +677,84 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-                <i class="fas fa-store me-2 text-primary"></i>{{ config('app.name', 'Laravel') }}
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- Navbar Baru -->
+    <header class="header-area">
+        <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <div class="d-flex align-items-center">
+                        <div class="logo-icon rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
+                    </div>
+                </a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#fitur">Fitur</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#manfaat">Manfaat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#cara-kerja">Cara Kerja</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#testimonial">Testimonial</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#faq">FAQ</a>
-                    </li>
-                    @if (Route::has('login'))
-                        @auth
-                            @if (Auth::user()->role === 'Admin')
-                                <li class="nav-item ms-lg-3">
-                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Dashboard</a>
-                                </li>
+                <!-- Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="toggler-icon"></span>
+                    <span class="toggler-icon"></span>
+                    <span class="toggler-icon"></span>
+                </button>
+
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#fitur">Fitur</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#manfaat">Manfaat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#cara-kerja">Cara Kerja</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#testimonial">Testimonial</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq">FAQ</a>
+                        </li>
+
+                        <!-- Auth Links -->
+                        @if (Route::has('login'))
+                            @auth
+                                @if (Auth::user()->role === 'Admin')
+                                    <li class="nav-item auth-item">
+                                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-navbar">
+                                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="nav-item auth-item">
+                                        <a href="{{ route('toko.dashboard') }}" class="btn btn-primary btn-navbar">
+                                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                        </a>
+                                    </li>
+                                @endif
                             @else
-                                <li class="nav-item ms-lg-3">
-                                    <a href="{{ route('toko.dashboard') }}" class="btn btn-primary">Dashboard</a>
+                                <li class="nav-item auth-item">
+                                    <a href="{{ route('login') }}" class="btn btn-primary btn-navbar">
+                                        <i class="fas fa-sign-in-alt me-1"></i>Masuk
+                                    </a>
                                 </li>
-                            @endif
-                        @else
-                            <li class="nav-item ms-lg-3">
-                                <a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item ms-lg-2">
-                                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Daftar</a>
-                                </li>
-                            @endif
-                        @endauth
-                    @endif
-                </ul>
+                                @if (Route::has('register'))
+                                    <li class="nav-item auth-item">
+                                        <a href="{{ route('register') }}" class="btn btn-outline-primary btn-navbar">
+                                            <i class="fas fa-user-plus me-1"></i>Daftar
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
+                        @endif
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <section class="hero-section">
         <div class="container">
@@ -1165,15 +1378,11 @@
 
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
+            const navbar = document.querySelector('.custom-navbar');
             if (window.scrollY > 50) {
                 navbar.classList.add('navbar-scrolled');
-                navbar.classList.remove('bg-transparent');
-                navbar.classList.add('bg-white');
             } else {
                 navbar.classList.remove('navbar-scrolled');
-                navbar.classList.add('bg-transparent');
-                navbar.classList.remove('bg-white');
             }
         });
         // Initialize Swiper
