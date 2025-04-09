@@ -167,7 +167,6 @@
 
         <div class="footer">
             <p>Dokumen ini dibuat pada {{ $sale->created_at->format('d M Y H:i') }}</p>
-            <p>Powered by Laravel Poin App</p>
         </div>
     </div>
 </body>

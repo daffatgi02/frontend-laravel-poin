@@ -8,7 +8,15 @@
             <p class="text-muted">Kelola toko dan lihat informasi penting di sini.</p>
         </div>
     </div>
-
+    <div class="col-md-12 mb-3">
+        <div class="card dashboard-card bg-light h-100">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-info-circle fa-3x text-info mb-3"></i>
+                <h5>Informasi</h5>
+                <p>Produk toko Anda dikelola oleh admin. Silakan hubungi admin untuk menambah atau mengubah produk.</p>
+            </div>
+        </div>
+    </div>
     @if (session('status'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="fas fa-check-circle me-1"></i>{{ session('status') }}
@@ -130,27 +138,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        @if ($store->status == 'verified')
-                            <a href="{{ route('toko.products') }}" class="btn btn-primary">
-                                <i class="fas fa-boxes me-1"></i>Lihat Produk
-                            </a>
-                        @endif
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card dashboard-card bg-light h-100">
-                            <div class="card-body text-center p-4">
-                                <i class="fas fa-shopping-cart fa-3x text-primary mb-3"></i>
-                                <h5>Catat Penjualan</h5>
-                                <p>Catat penjualan produk Anda dan dapatkan poin reward.</p>
-                                <div class="d-grid gap-2">
-                                    <a href="{{ route('toko.sales.index') }}" class="btn btn-primary">
-                                        <i class="fas fa-shopping-cart me-1"></i>Kelola Penjualan
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -181,9 +168,14 @@
                             <div class="col-md-6 mb-3">
                                 <div class="card dashboard-card bg-light h-100">
                                     <div class="card-body text-center p-4">
-                                        <i class="fas fa-info-circle fa-3x text-info mb-3"></i>
-                                        <h5>Informasi</h5>
-                                        <p>Produk toko Anda dikelola oleh admin. Silakan hubungi admin untuk menambah atau mengubah produk.</p>
+                                        <i class="fas fa-shopping-cart fa-3x text-primary mb-3"></i>
+                                        <h5>Catat Penjualan</h5>
+                                        <p>Catat penjualan produk Anda dan dapatkan poin reward.</p>
+                                        <div class="d-grid gap-2">
+                                            <a href="{{ route('toko.sales.index') }}" class="btn btn-primary">
+                                                <i class="fas fa-shopping-cart me-1"></i>Kelola Penjualan
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
