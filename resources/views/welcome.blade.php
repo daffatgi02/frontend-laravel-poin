@@ -404,6 +404,86 @@
             height: 100%;
             margin: 10px;
         }
+
+        /* Step Cards New Style */
+        .timeline-line {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            width: 76%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .step-card-new {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-top: 5px solid var(--primary);
+            overflow: hidden;
+        }
+
+        .step-card-new::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.05) 0%, rgba(242, 117, 128, 0.05) 100%);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .step-card-new:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-card-new:hover::before {
+            height: 100%;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+        }
+
+        .step-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 991px) {
+            .timeline-line {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -688,37 +768,54 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <h4 class="mt-4 mb-3">Daftar</h4>
-                        <p class="text-muted">Buat akun di platform kami dengan mengisi informasi toko Anda.</p>
-                        <a href="{{ route('register') }}" class="btn btn-sm btn-primary mt-3">Daftar Sekarang</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <h4 class="mt-4 mb-3">Verifikasi</h4>
-                        <p class="text-muted">Lengkapi verifikasi toko dan tunggu persetujuan dari tim kami.</p>
-                        <i class="fas fa-clipboard-check text-primary fs-1 mt-3"></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <h4 class="mt-4 mb-3">Jual Produk</h4>
-                        <p class="text-muted">Mulai jual produk dan kumpulkan poin reward dari setiap transaksi.</p>
-                        <i class="fas fa-shopping-cart text-primary fs-1 mt-3"></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <h4 class="mt-4 mb-3">Klaim Reward</h4>
-                        <p class="text-muted">Tukarkan poin yang telah Anda kumpulkan dengan berbagai hadiah menarik.
-                        </p>
-                        <i class="fas fa-gift text-primary fs-1 mt-3"></i>
+                <!-- Timeline style steps -->
+                <div class="col-12 position-relative">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="step-card-new">
+                                <div class="step-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <h3 class="step-number">01</h3>
+                                <h4 class="mt-4 mb-3">Daftar</h4>
+                                <p class="text-muted mb-4">Buat akun di platform kami dengan mengisi informasi toko
+                                    Anda.</p>
+                                <a href="{{ route('register') }}" class="btn btn-primary">Daftar Sekarang</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="step-card-new">
+                                <div class="step-icon">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </div>
+                                <h3 class="step-number">02</h3>
+                                <h4 class="mt-4 mb-3">Verifikasi</h4>
+                                <p class="text-muted mb-4">Lengkapi verifikasi toko dan tunggu persetujuan dari tim
+                                    kami.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="step-card-new">
+                                <div class="step-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h3 class="step-number">03</h3>
+                                <h4 class="mt-4 mb-3">Jual Produk</h4>
+                                <p class="text-muted mb-4">Mulai jual produk dan kumpulkan poin reward dari setiap
+                                    transaksi.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                            <div class="step-card-new">
+                                <div class="step-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <h3 class="step-number">04</h3>
+                                <h4 class="mt-4 mb-3">Klaim Reward</h4>
+                                <p class="text-muted mb-4">Tukarkan poin yang telah Anda kumpulkan dengan berbagai
+                                    hadiah menarik.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
