@@ -28,4 +28,11 @@ class Product extends Model
     {
         return $this->belongsTo(Store::class, 'store_id', 'id_toko');
     }
+    /**
+     * Get the sales for the product.
+     */
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'product_id', 'id_produk');
+    }
 }

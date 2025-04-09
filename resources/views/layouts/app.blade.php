@@ -153,6 +153,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('admin.sales.*') ? 'active' : '' }}" href="{{ route('admin.sales.index') }}">
+                                        <i class="fas fa-shopping-cart me-1"></i>Verifikasi Penjualan
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link {{ Route::is('admin.users_without_store') ? 'active' : '' }}" href="{{ route('admin.users_without_store') }}">
                                         <i class="fas fa-users me-1"></i>Pengguna
                                     </a>
@@ -166,6 +171,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('toko.products') ? 'active' : '' }}" href="{{ route('toko.products') }}">
                                         <i class="fas fa-boxes me-1"></i>Produk
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('toko.sales.*') ? 'active' : '' }}" href="{{ route('toko.sales.index') }}">
+                                        <i class="fas fa-shopping-cart me-1"></i>Penjualan
                                     </a>
                                 </li>
                             @endif

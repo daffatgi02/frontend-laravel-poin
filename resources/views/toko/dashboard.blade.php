@@ -137,6 +137,20 @@
                             </a>
                         @endif
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card dashboard-card bg-light h-100">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-shopping-cart fa-3x text-primary mb-3"></i>
+                                <h5>Catat Penjualan</h5>
+                                <p>Catat penjualan produk Anda dan dapatkan poin reward.</p>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ route('toko.sales.index') }}" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart me-1"></i>Kelola Penjualan
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

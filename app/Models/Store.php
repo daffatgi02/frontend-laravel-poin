@@ -46,4 +46,11 @@ class Store extends Model
     {
         return $this->status === 'verified';
     }
+    /**
+     * Get the sales for the store.
+     */
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'store_id', 'id_toko');
+    }
 }

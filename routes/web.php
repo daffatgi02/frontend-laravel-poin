@@ -6,7 +6,8 @@ use App\Http\Controllers\TokoController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\AdminSaleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,4 +54,18 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+});
+// Toko Sales Routes
+Route::middleware(['auth', 'role:Toko'])->prefix('toko')->group(function () {
+    Route::get('/sales', [SaleController::class, 'index'])->name('toko.sales.index');
+    Route::get('/sales/create', [SaleController::class, 'create'])->name('toko.sales.create');
+    Route::post('/sales', [SaleController::class, 'store'])->name('toko.sales.store');
+    Route::get('/sales/{id}', [SaleController::class, 'show'])->name('toko.sales.show');
+    Route::get('/sales/{id}/pdf', [SaleController::class, 'generatePdf'])->name('toko.sales.pdf');
+});
+// Admin Sales Routes
+Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
+    Route::get('/sales', [AdminSaleController::class, 'index'])->name('admin.sales.index');
+    Route::get('/sales/{id}', [AdminSaleController::class, 'show'])->name('admin.sales.show');
+    Route::put('/sales/{id}/status', [AdminSaleController::class, 'updateStatus'])->name('admin.sales.update_status');
 });
