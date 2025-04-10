@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }} - Platform Distributor & Toko</title>
+    <link rel="icon" type="image/x-icon" href="/icons/ios/192.png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -778,9 +779,7 @@
                 <!-- Logo -->
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <div class="d-flex align-items-center">
-                        <div class="logo-icon rounded-circle d-flex align-items-center justify-content-center me-2">
-                            <i class="fas fa-store"></i>
-                        </div>
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 50px; height: 40px; margin-right: 8px;">
                         <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
                     </div>
                 </a>
