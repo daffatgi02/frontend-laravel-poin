@@ -1066,8 +1066,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1556741533-6e6a62bd8b49?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="Benefits" class="img-fluid rounded-3 shadow-lg" data-aos="fade-right">
+                    <img src="{{ asset('images/ilus.png') }}" alt="Benefits" class="img-fluid rounded-3 shadow-lg" data-aos="fade-right">
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex mb-4" data-aos="fade-left" data-aos-delay="100">
