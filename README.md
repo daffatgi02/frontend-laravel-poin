@@ -99,9 +99,8 @@ Aplikasi ini adalah sistem manajemen toko berbasis Laravel yang dilengkapi fitur
 ## 📱 Dukungan PWA
 
 Aplikasi ini mendukung **Progressive Web App (PWA)**:  
-- Dapat diinstal di perangkat mobile / desktop  
-- Dapat digunakan secara offline  
-
+- Dapat diinstal di perangkat mobile / desktop
+  
 ## 🧰 Teknologi yang Digunakan
 
 - Laravel 9.x  
