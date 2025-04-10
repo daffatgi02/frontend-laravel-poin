@@ -71,3 +71,6 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
 });
 // In routes/web.php
 Route::get('/admin/sales/{id}/pdf', [AdminSaleController::class, 'generatePdf'])->name('admin.sales.pdf');
+Route::get('/offline', function () {
+    return view('offline');
+});
