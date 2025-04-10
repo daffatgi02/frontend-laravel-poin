@@ -1,6 +1,4 @@
-Tentu! Ini dia versi siap-copy untuk file `README.md` GitHub-mu:
 
-```markdown
 # Laravel Store Point Management System
 
 Aplikasi ini adalah sistem manajemen toko berbasis Laravel yang dilengkapi fitur poin reward. Pemilik toko dapat mendaftar, memverifikasi toko mereka, menjual produk, dan memperoleh poin yang bisa ditukarkan.
