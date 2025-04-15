@@ -31,6 +31,11 @@ class TokoController extends Controller
         $user = Auth::user();
         $store = Store::where('user_id', $user->id)->first();
 
+        // If store exists, get total points
+        if ($store) {
+            $totalPoints = $store->total_points;
+        }
+
         return view('toko.dashboard', compact('store'));
     }
 

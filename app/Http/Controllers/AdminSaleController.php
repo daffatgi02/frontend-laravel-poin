@@ -121,6 +121,27 @@ class AdminSaleController extends Controller
         $sale->catatan_admin = $request->catatan_admin;
         $sale->save();
 
+        // Award points when verifying a sale
+        if ($oldStatus != 'verified' && $newStatus == 'verified') {
+            // Get reward points from the product
+            $rewardPoints = $product->reward_poin * $sale->jumlah;
+
+            // Create point transaction
+            \App\Models\Point::create([
+                'store_id' => $sale->store_id,
+                'sale_id' => $sale->id_penjualan,
+                'points' => $rewardPoints,
+                'description' => "Reward poin dari penjualan {$product->nama_produk} ({$sale->jumlah} pcs)",
+                'type' => 'earned'
+            ]);
+        }
+
+        // Remove points if changing from verified to another status
+        if ($oldStatus == 'verified' && $newStatus != 'verified') {
+            // Find and delete related points
+            \App\Models\Point::where('sale_id', $sale->id_penjualan)->delete();
+        }
+
         return redirect()->route('admin.sales.index')->with('success', 'Status penjualan berhasil diperbarui.');
     }
     /**

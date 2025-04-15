@@ -140,7 +140,7 @@
                                                         <div class="card-body text-center py-2">
                                                             <h6 class="mb-1">Reward Poin</h6>
                                                             <h5 class="text-success mb-0">
-                                                                {{ number_format($product->reward_poin) }} Poin</h5>
+                                                                {{ number_format($product->reward_poin) }} Poin / Produk</h5>
                                                         </div>
                                                     </div>
 

@@ -207,6 +207,13 @@
                                         <i class="fas fa-shopping-cart me-1"></i>Penjualan
                                     </a>
                                 </li>
+                                <!-- Inside the navbar links for Toko users -->
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('toko.points.*') ? 'active' : '' }}"
+                                        href="{{ route('toko.points.index') }}">
+                                        <i class="fas fa-coins me-1"></i>Poin Saya
+                                    </a>
+                                </li>
                             @endif
                         @endauth
                     </ul>
@@ -262,7 +269,8 @@
 
         <footer class="footer">
             <div class="container">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.
+                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights
+                    reserved.
                 </p>
             </div>
         </footer>

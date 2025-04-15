@@ -53,4 +53,25 @@ class Store extends Model
     {
         return $this->hasMany(Sale::class, 'store_id', 'id_toko');
     }
+
+    /**
+     * Get the point transactions for the store.
+     */
+    public function points()
+    {
+        return $this->hasMany(Point::class, 'store_id', 'id_toko');
+    }
+
+    /**
+     * Get the total points for the store.
+     */
+    public function getTotalPointsAttribute()
+    {
+        return $this->points()
+            ->where('type', 'earned')
+            ->sum('points') -
+            $this->points()
+            ->where('type', 'redeemed')
+            ->sum('points');
+    }
 }

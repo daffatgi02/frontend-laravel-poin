@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminSaleController;
+use App\Http\Controllers\PointController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,4 +74,8 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
 Route::get('/admin/sales/{id}/pdf', [AdminSaleController::class, 'generatePdf'])->name('admin.sales.pdf');
 Route::get('/offline', function () {
     return view('offline');
+});
+// Toko Points Routes
+Route::middleware(['auth', 'role:Toko'])->prefix('toko')->group(function () {
+    Route::get('/points', [PointController::class, 'index'])->name('toko.points.index');
 });

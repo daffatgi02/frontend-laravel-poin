@@ -9,7 +9,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -779,7 +780,8 @@
                 <!-- Logo -->
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 50px; height: 40px; margin-right: 8px;">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                            style="width: 50px; height: 40px; margin-right: 8px;">
                         <span class="brand-text">{{ config('app.name', 'Laravel') }}</span>
                     </div>
                 </a>
@@ -835,11 +837,7 @@
                                         aria-labelledby="userDropdown">
                                         <li class="dropdown-user-details">
                                             <div class="d-flex align-items-center p-3">
-                                                <div class="avatar-circle avatar-circle-lg">
-                                                    <span
-                                                        class="avatar-initial">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                                                </div>
-                                                <div class="ms-3">
+                                                <div>
                                                     <h6 class="mb-0">{{ Auth::user()->name }}</h6>
                                                     <small class="text-muted">
                                                         @if (Auth::user()->isAdmin())
@@ -861,10 +859,22 @@
                                                 </a>
                                             @endif
                                             @if (Auth::user()->isAdmin())
-                                            <a class="dropdown-item" href="{{ route('admin.stores') }}">
-                                                <i class="fas fa-shop me-2"></i>Daftar Semua Toko
+                                                <a class="dropdown-item" href="{{ route('admin.stores') }}">
+                                                    <i class="fas fa-shop me-2"></i>Daftar Semua Toko
+                                                </a>
+                                            @endif
+                                            <!-- Add the Points Menu Item here -->
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('toko.points.index') }}">
+                                                <i class="fas fa-coins me-2"></i>Poin Saya
+                                                @php
+                                                    $store = App\Models\Store::where('user_id', Auth::id())->first();
+                                                    $totalPoints = $store ? $store->total_points : 0;
+                                                @endphp
+                                                <span
+                                                    class="badge bg-warning text-dark float-end">{{ number_format($totalPoints) }}</span>
                                             </a>
-                                        @endif
+                                        </li>
                                         </li>
                                         @if (!Auth::user()->isAdmin())
                                             <li>
@@ -881,12 +891,12 @@
                                             </li>
                                         @endif
                                         @if (!Auth::user()->isAdmin())
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('toko.sales.index') }}">
-                                                <i class="fas fa-note-sticky me-2"></i>Catatan Penjualan
-                                            </a>
-                                        </li>
-                                    @endif
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('toko.sales.index') }}">
+                                                    <i class="fas fa-note-sticky me-2"></i>Catatan Penjualan
+                                                </a>
+                                            </li>
+                                        @endif
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
@@ -1066,7 +1076,8 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('images/ilus.png') }}" alt="Benefits" class="img-fluid rounded-3 shadow-lg" data-aos="fade-right">
+                    <img src="{{ asset('images/ilus.png') }}" alt="Benefits" class="img-fluid rounded-3 shadow-lg"
+                        data-aos="fade-right">
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex mb-4" data-aos="fade-left" data-aos-delay="100">
