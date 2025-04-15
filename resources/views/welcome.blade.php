@@ -769,6 +769,109 @@
                 justify-content: center;
             }
         }
+
+        /* Notification Dropdown Styling */
+        .notification-dropdown {
+            width: 350px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding: 0;
+            margin-top: 0.5rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15) !important;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .notification-body {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+        }
+
+        .notification-item.unread {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+        }
+
+        .notification-icon {
+            min-width: 40px;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification-content {
+            line-height: 1.3;
+        }
+
+        .smaller {
+            font-size: 0.75rem;
+        }
+
+        .small {
+            font-size: 0.85rem;
+        }
+
+        .indicator {
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(var(--bs-primary-rgb), 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 5px rgba(var(--bs-primary-rgb), 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(var(--bs-primary-rgb), 0);
+            }
+        }
+
+        /* Scrollbar styling for notification dropdown */
+        .notification-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .notification-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .notification-body::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+        }
+
+        .notification-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.25);
+        }
     </style>
 </head>
 
@@ -817,9 +920,120 @@
                         <!-- Auth Links with Professional Greeting -->
                         @if (Route::has('login'))
                             @auth
+                                <!-- Notification Dropdown -->
+                                <li class="nav-item dropdown me-2">
+                                    <a class="nav-link position-relative" href="#" id="notificationDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-bell fa-lg"></i>
+                                        @php
+                                            $unreadCount = Auth::user()->unreadNotifications->count();
+                                        @endphp
+                                        @if ($unreadCount > 0)
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+                                                <span class="visually-hidden">unread notifications</span>
+                                            </span>
+                                        @endif
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end notification-dropdown shadow-lg"
+                                        aria-labelledby="notificationDropdown">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                                            <h6 class="dropdown-header m-0 p-0 fw-bold">Notifikasi</h6>
+                                            <div>
+                                                @if ($unreadCount > 0)
+                                                    <form action="{{ route('notifications.markAllAsRead') }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm text-primary p-0 me-2"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Tandai semua dibaca">
+                                                            <i class="fas fa-check-double"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                <a href="{{ route('notifications.index') }}"
+                                                    class="text-decoration-none">Lihat Semua</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="notification-body">
+                                            @if (Auth::user()->notifications->count() > 0)
+                                                @foreach (Auth::user()->notifications->take(5) as $notification)
+                                                    <a href="{{ route('notifications.click', $notification->id) }}"
+                                                        class="dropdown-item notification-item {{ !$notification->read_at ? 'unread' : '' }}">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="notification-icon me-3">
+                                                                @if (isset($notification->data['type']))
+                                                                    @if ($notification->data['type'] == 'store_verification')
+                                                                        <div class="icon-circle bg-primary">
+                                                                            <i class="fas fa-store text-white"></i>
+                                                                        </div>
+                                                                    @elseif($notification->data['type'] == 'sale_verified')
+                                                                        <div class="icon-circle bg-success">
+                                                                            <i class="fas fa-check-circle text-white"></i>
+                                                                        </div>
+                                                                    @elseif($notification->data['type'] == 'sale_rejected')
+                                                                        <div class="icon-circle bg-danger">
+                                                                            <i class="fas fa-times-circle text-white"></i>
+                                                                        </div>
+                                                                    @elseif($notification->data['type'] == 'points_earned')
+                                                                        <div class="icon-circle bg-warning">
+                                                                            <i class="fas fa-coins text-white"></i>
+                                                                        </div>
+                                                                    @elseif($notification->data['type'] == 'new_sale')
+                                                                        <div class="icon-circle bg-info">
+                                                                            <i class="fas fa-shopping-cart text-white"></i>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="icon-circle bg-secondary">
+                                                                            <i class="fas fa-bell text-white"></i>
+                                                                        </div>
+                                                                    @endif
+                                                                @else
+                                                                    <div class="icon-circle bg-secondary">
+                                                                        <i class="fas fa-bell text-white"></i>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <div class="notification-content flex-grow-1">
+                                                                <div class="small text-truncate">
+                                                                    {{ isset($notification->data['message']) ? $notification->data['message'] : 'Notifikasi baru' }}
+                                                                </div>
+                                                                <div class="smaller text-muted">
+                                                                    {{ $notification->created_at->diffForHumans() }}</div>
+                                                            </div>
+                                                            @if (!$notification->read_at)
+                                                                <div class="ms-2">
+                                                                    <span class="indicator"></span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                <div class="dropdown-item text-center py-4">
+                                                    <i class="fas fa-bell-slash text-muted mb-2"
+                                                        style="font-size: 1.5rem;"></i>
+                                                    <p class="mb-0 text-muted">Tidak ada notifikasi</p>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="dropdown-divider m-0"></div>
+                                        <a class="dropdown-item text-center text-primary py-2"
+                                            href="{{ route('notifications.index') }}">
+                                            Lihat Semua Notifikasi
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <!-- User Dropdown -->
                                 <div class="nav-item dropdown user-dropdown">
                                     <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#"
-                                        id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        id="userDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-circle">
                                                 <span class="avatar-initial">{{ substr(Auth::user()->name, 0, 1) }}</span>
@@ -829,6 +1043,18 @@
                                                     <span class="user-role">Administrator</span>
                                                 @else
                                                     <span class="user-name">{{ Auth::user()->name }}</span>
+                                                    @php
+                                                        $store = App\Models\Store::where(
+                                                            'user_id',
+                                                            Auth::id(),
+                                                        )->first();
+                                                        if ($store && $store->status == 'verified') {
+                                                            $totalPoints = $store->total_points;
+                                                            echo '<span class="badge bg-warning text-dark ms-1">' .
+                                                                number_format($totalPoints) .
+                                                                ' Poin</span>';
+                                                        }
+                                                    @endphp
                                                 @endif
                                             </span>
                                         </div>
@@ -863,18 +1089,6 @@
                                                     <i class="fas fa-shop me-2"></i>Daftar Semua Toko
                                                 </a>
                                             @endif
-                                            <!-- Add the Points Menu Item here -->
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('toko.points.index') }}">
-                                                <i class="fas fa-coins me-2"></i>Poin Saya
-                                                @php
-                                                    $store = App\Models\Store::where('user_id', Auth::id())->first();
-                                                    $totalPoints = $store ? $store->total_points : 0;
-                                                @endphp
-                                                <span
-                                                    class="badge bg-warning text-dark float-end">{{ number_format($totalPoints) }}</span>
-                                            </a>
-                                        </li>
                                         </li>
                                         @if (!Auth::user()->isAdmin())
                                             <li>
@@ -894,6 +1108,22 @@
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('toko.sales.index') }}">
                                                     <i class="fas fa-note-sticky me-2"></i>Catatan Penjualan
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (!Auth::user()->isAdmin())
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('toko.points.index') }}">
+                                                    <i class="fas fa-coins me-2"></i>Poin Saya
+                                                    @php
+                                                        $store = App\Models\Store::where(
+                                                            'user_id',
+                                                            Auth::id(),
+                                                        )->first();
+                                                        $totalPoints = $store ? $store->total_points : 0;
+                                                    @endphp
+                                                    <span
+                                                        class="badge bg-warning text-dark float-end">{{ number_format($totalPoints) }}</span>
                                                 </a>
                                             </li>
                                         @endif

@@ -8,6 +8,10 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\User;
+use App\Notifications\SaleVerifiedNotification;
+use App\Notifications\SaleRejectedNotification;
+use App\Notifications\PointsEarnedNotification;
 
 class AdminSaleController extends Controller
 {
@@ -121,25 +125,40 @@ class AdminSaleController extends Controller
         $sale->catatan_admin = $request->catatan_admin;
         $sale->save();
 
+        // Find the store owner to send notifications
+        $store = Store::findOrFail($sale->store_id);
+        $user = \App\Models\User::findOrFail($store->user_id);
+
         // Award points when verifying a sale
         if ($oldStatus != 'verified' && $newStatus == 'verified') {
             // Get reward points from the product
             $rewardPoints = $product->reward_poin * $sale->jumlah;
 
             // Create point transaction
-            \App\Models\Point::create([
+            $point = \App\Models\Point::create([
                 'store_id' => $sale->store_id,
                 'sale_id' => $sale->id_penjualan,
                 'points' => $rewardPoints,
                 'description' => "Reward poin dari penjualan {$product->nama_produk} ({$sale->jumlah} pcs)",
                 'type' => 'earned'
             ]);
+
+            // Send sale verification notification
+            $user->notify(new \App\Notifications\SaleVerifiedNotification($sale));
+
+            // Send points earned notification
+            $user->notify(new \App\Notifications\PointsEarnedNotification($point));
         }
 
         // Remove points if changing from verified to another status
         if ($oldStatus == 'verified' && $newStatus != 'verified') {
             // Find and delete related points
             \App\Models\Point::where('sale_id', $sale->id_penjualan)->delete();
+
+            // Send rejection notification if applicable
+            if ($newStatus == 'rejected') {
+                $user->notify(new \App\Notifications\SaleRejectedNotification($sale, $request->catatan_admin));
+            }
         }
 
         return redirect()->route('admin.sales.index')->with('success', 'Status penjualan berhasil diperbarui.');

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminSaleController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\NotificationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,4 +80,14 @@ Route::get('/offline', function () {
 // Toko Points Routes
 Route::middleware(['auth', 'role:Toko'])->prefix('toko')->group(function () {
     Route::get('/points', [PointController::class, 'index'])->name('toko.points.index');
+});
+// Notification Routes
+Route::middleware(['auth'])->prefix('notifications')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::get('/click/{id}', [NotificationController::class, 'handleClick'])->name('notifications.click');
+    Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAll'])
+        ->name('notifications.deleteAll');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
 });

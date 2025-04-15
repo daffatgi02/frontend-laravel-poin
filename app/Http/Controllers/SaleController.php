@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use App\Notifications\NewSaleNotification;
 
 class SaleController extends Controller
 {
@@ -132,7 +133,28 @@ class SaleController extends Controller
         $product->reserved_stock += $request->jumlah;
         $product->save();
 
+        // Send notification to all admin users
+        $this->notifyAdmins($sale, $store, $product);
+
         return redirect()->route('toko.sales.index')->with('success', 'Penjualan berhasil dicatat dan menunggu verifikasi admin.');
+    }
+
+    /**
+     * Send notification to all admin users about new sale
+     *
+     * @param Sale $sale
+     * @param Store $store
+     * @param Product $product
+     * @return void
+     */
+    private function notifyAdmins($sale, $store, $product)
+    {
+        // Get all admin users
+        $adminUsers = \App\Models\User::where('role', 'Admin')->get();
+
+        foreach ($adminUsers as $admin) {
+            $admin->notify(new \App\Notifications\NewSaleNotification($sale, $store, $product));
+        }
     }
     /**
      * Display the specified sale.

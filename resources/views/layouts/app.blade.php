@@ -257,6 +257,71 @@
                                     </form>
                                 </div>
                             </li>
+                            <!-- Inside navbar after right side dropdown -->
+                            <li class="nav-item dropdown ms-2">
+                                <a class="nav-link dropdown-toggle position-relative" href="#"
+                                    id="notificationDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    @if (Auth::user()->unreadNotifications->count() > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ Auth::user()->unreadNotifications->count() }}
+                                            <span class="visually-hidden">unread notifications</span>
+                                        </span>
+                                    @endif
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown"
+                                    style="width: 300px; max-height: 400px; overflow-y: auto;">
+                                    <li>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                                            <h6 class="mb-0">Notifikasi</h6>
+                                            <a href="{{ route('notifications.index') }}"
+                                                class="btn btn-sm btn-link text-decoration-none">Lihat Semua</a>
+                                        </div>
+                                    </li>
+
+                                    @if (Auth::user()->notifications->count() > 0)
+                                        @foreach (Auth::user()->notifications->take(5) as $notification)
+                                            <li>
+                                                <a class="dropdown-item py-2 {{ $notification->read_at ? '' : 'bg-light' }}"
+                                                    href="{{ route('notifications.click', $notification->id) }}">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <div>
+                                                            @if ($notification->data['type'] == 'store_verification')
+                                                                <i class="fas fa-store text-primary me-2"></i>
+                                                            @elseif ($notification->data['type'] == 'sale_verified')
+                                                                <i class="fas fa-check-circle text-success me-2"></i>
+                                                            @elseif ($notification->data['type'] == 'sale_rejected')
+                                                                <i class="fas fa-times-circle text-danger me-2"></i>
+                                                            @elseif ($notification->data['type'] == 'points_earned')
+                                                                <i class="fas fa-coins text-warning me-2"></i>
+                                                            @elseif ($notification->data['type'] == 'new_sale')
+                                                                <i class="fas fa-shopping-cart text-info me-2"></i>
+                                                            @else
+                                                                <i class="fas fa-bell text-secondary me-2"></i>
+                                                            @endif
+                                                            <small>{{ Str::limit($notification->data['message'], 70) }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-1">
+                                                        <small
+                                                            class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li>
+                                            <div class="text-center py-3">
+                                                <i class="fas fa-bell-slash text-muted"></i>
+                                                <p class="mb-0 small text-muted">Tidak ada notifikasi</p>
+                                            </div>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
                         @endguest
                     </ul>
                 </div>

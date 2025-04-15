@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\Product;
+use App\Notifications\StoreVerificationNotification;
 
 class AdminController extends Controller
 {
@@ -73,8 +74,20 @@ class AdminController extends Controller
         ]);
 
         $store = Store::findOrFail($id);
+        $oldStatus = $store->status;
         $store->status = $request->status;
         $store->save();
+
+        // Send notification when status changes
+        if ($oldStatus != $request->status) {
+            $user = User::find($store->user_id);
+
+            if ($request->status == 'verified') {
+                $user->notify(new StoreVerificationNotification($store, 'verified'));
+            } else if ($request->status == 'nonaktif') {
+                $user->notify(new StoreVerificationNotification($store, 'rejected'));
+            }
+        }
 
         return redirect()->route('admin.stores')->with('success', 'Status toko berhasil diperbarui.');
     }
