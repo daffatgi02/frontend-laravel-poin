@@ -166,7 +166,7 @@
 
         @if ($sale->catatan)
         <div class="info-section">
-            <div class="info-title">Catatan</div>
+            <div class="info-title">Catatan dari {{ $sale->store->nama_toko }}</div>
             <p>{{ $sale->catatan }}</p>
         </div>
         @endif
@@ -179,24 +179,6 @@
             </div>
         </div>
         @endif
-
-        <div class="info-section">
-            <div class="info-title">Bukti Penjualan</div>
-            <div class="info-row">
-                <div class="info-label">Jumlah Foto:</div>
-                <div class="info-value">
-                    @if ($sale->bukti_penjualan && is_array(json_decode($sale->bukti_penjualan)))
-                        {{ count(json_decode($sale->bukti_penjualan)) }} foto
-                    @elseif ($sale->bukti_penjualan)
-                        1 foto
-                    @else
-                        Tidak ada foto
-                    @endif
-                </div>
-            </div>
-            <p>Bukti penjualan lengkap dapat dilihat pada sistem.</p>
-        </div>
-
         <div class="footer">
             <p>Dokumen ini dibuat pada {{ $sale->created_at->format('d M Y H:i') }}</p>
             <p>Powered by {{ config('app.name', 'Laravel') }}</p>

@@ -149,12 +149,6 @@
                                                         <ul class="list-group">
                                                             <li
                                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                                ID Produk
-                                                                <span
-                                                                    class="badge bg-secondary rounded-pill">{{ $product->id_produk }}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
                                                                 Tanggal Ditambahkan
                                                                 <span>{{ $product->created_at->format('d M Y') }}</span>
                                                             </li>
@@ -164,8 +158,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup</button>
+                                            <a href="{{ route('toko.sales.create') }}" class="btn btn-primary">Jual Produk</a>
                                         </div>
                                     </div>
                                 </div>
